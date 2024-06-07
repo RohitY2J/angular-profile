@@ -23,7 +23,7 @@ Created: June 24, 2022 6:04 PM
 
 #### General.
 
-##### ****Explain the differences and use cases between IEnumerable, ICollection, and IList interfaces in C# Collections.****
+##### **Explain the differences and use cases between IEnumerable, ICollection, and IList interfaces in C# Collections.**
 
 **Summary**
 
@@ -39,12 +39,39 @@ Brief
     - It defines a single method, **`GetEnumerator()`**, which returns an **`IEnumerator`** interface that allows you to traverse the collection using **`foreach`** or LINQ queries.
     - **`IEnumerable`** is read-only, meaning you can only iterate over the items but not modify the collection.
     - It doesn't provide any methods for adding, removing, or modifying elements within the collection.
+    
+    ```csharp
+    #Initialization IEnumerable
+    
+    //IEnumerable<T> is an interface. You need to initiate with a concrete type (that implements IEnumerable<T>). Example:
+    IEnumerable<string> m_oEnum = new List<string>() { "1", "2", "3"};
+    
+    #Iteration over IEnumerable
+    foreach(string en in m_oEnum)
+    {
+    }
+    
+    #using GetEnumerator()
+    IEnumerable<T> mySequence = new List<string>(){"apple","orange"};
+    using (var sequenceEnum = mySequence.GetEnumerator())
+    {
+        while (sequenceEnum.MoveNext())
+        {
+            WriteLine(sequenceEnum.Current)
+        }
+    }
+    
+    //In the above case we cannot add elements like mySequence.Add("banana") 
+    //as IEnumerable does not contain method for adding, removing, modifying
+    ```
+    
 2. **ICollection**:
     - **`ICollection`** extends **`IEnumerable`**, adding more features.
     - It represents a collection of objects with methods for adding, removing, and checking for the existence of elements.
     - **`ICollection`** includes methods like **`Add`**, **`Remove`**, **`Contains`**, and **`CopyTo`**, which allow you to modify and manipulate the collection.
     - It also provides properties such as **`Count`** to get the number of elements in the collection and **`IsReadOnly`** to check if the collection is read-only.
     - **`ICollection`** is suitable for collections where you need to perform basic modifications.
+    - **`ICollection`** does not provide methods for inserting and removing at specific index.
 3. **IList**:
     - **`IList`** extends **`ICollection`**, providing even more functionality.
     - It represents a list of objects, where each element has a specific index.
@@ -52,8 +79,141 @@ Brief
     - You can access elements by their index using the **`this[int]`** property.
     - **`IList`** also includes methods like **`Insert`**, **`RemoveAt`**, and **`IndexOf`** for working with the list by index.
     - **`IList`** is suitable when you need to work with ordered collections where you need to manage elements by their positions.
+    
+    Conclusion: If you want to only iterate through collection, use IEnumerable.
+    If you want to iterate, modify the size and count the size of collection, use ICollection.
+    If you want to iterate, modify and add, insert at particular position, use IList.
+    
 
-##### ****What are the advantages of using a System.Collections.Concurrent namespace over the regular System.Collections.Generic namespace for collections, especially in multithreading scenarios?****
+##### Is there any advantage of using `**IEnumerable**` over `**ICollection`** even if my purpose is to only iterate over the collection?
+
+Yes, there are advantages to using **`IEnumerable<T>`** over **`ICollection<T>`** if you only need to iterate over a collection:
+
+1. **Abstraction**:
+    - **`IEnumerable<T>`** provides a more abstract interface, focusing solely on iteration.
+    - Using **`IEnumerable<T>`** indicates that your code is only interested in enumerating the elements and doesn't care about specific collection features like counting, adding, or removing elements.
+    - This abstraction can lead to cleaner and more modular code, as it separates concerns.
+2. **Flexibility**:
+    - By using **`IEnumerable<T>`**, your code becomes more flexible.
+    - You're not tied to a specific collection type that implements **`ICollection<T>`**. Instead, any collection that implements **`IEnumerable<T>`** can be used, which includes arrays, lists, sets, and more.
+    - This flexibility allows you to easily switch between different collection implementations without modifying your code, as long as they expose an **`IEnumerable<T>`** interface.
+3. **Lazy Evaluation**:
+    - **`IEnumerable<T>`** supports lazy evaluation, meaning that elements are generated or fetched on-demand as you iterate over the collection.
+    - This can be beneficial for performance and memory efficiency, especially when working with large or infinite sequences of data.
+    - Lazy evaluation allows you to consume elements as needed without loading the entire collection into memory upfront.
+
+In summary, if your code only needs to iterate over a collection and doesn't require specific collection features, using **`IEnumerable<T>`** offers abstraction, flexibility, lazy evaluation, and compatibility advantages over **`ICollection<T>`**.
+
+##### Is different between IEnumerable and IEnumerable<T>?
+
+- **`IEnumerable`** is non-generic and can work with collections of any type.
+- **`IEnumerable<T>`** is generic and is type-safe, allowing you to work with collections of a specific type directly without casting.
+- **`IEnumerable<T>`** extends **`IEnumerable`**, meaning any operation that works with **`IEnumerable`** also works with **`IEnumerable<T>`**, but not the other way around.
+- Also we can use `Where` and `Select` methods on only `IEnumerable<T>`.
+
+##### How is lazy loading different than eager loading internally in case of IEnumerable vs IList?
+
+**Lazy Loading with IEnumerable:**
+
+When you use **`IEnumerable`**, the elements are loaded on-demand as you iterate through the collection. This means that elements are fetched from the source one by one or in batches only when needed, conserving memory and potentially improving performance.
+
+Here's an example demonstrating lazy loading with **`IEnumerable`**:
+
+```csharp
+csharpCopy code
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace LazyLoadingExample
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Create an IEnumerable that generates numbers on-the-fly
+            IEnumerable<int> numbers = GenerateNumbers();
+
+            // Iterate through the numbers
+            foreach (var number in numbers)
+            {
+                Console.WriteLine(number);
+
+                // Assume some condition to exit the loop early
+                if (number >= 5)
+                    break;
+            }
+        }
+
+        static IEnumerable<int> GenerateNumbers()
+        {
+            // Simulate generating numbers lazily
+            for (int i = 1; i <= 10; i++)
+            {
+                Console.WriteLine($"Generating {i}");
+                yield return i; // Yield return generates the numbers on-the-fly
+            }
+        }
+    }
+}
+
+```
+
+In this example, the **`GenerateNumbers`** method returns an **`IEnumerable<int>`** that generates numbers from 1 to 10 lazily. When you run this program, you'll notice that it only generates numbers up to 5 because of the early exit condition in the loop. Lazy loading ensures that only the necessary elements are generated and consumed.
+
+**Eager Loading with IList:**
+
+On the other hand, if you were to use **`IList`**, it typically implies eager loading where all the elements are loaded into memory upfront. This can be disadvantageous if you only need to iterate through the collection partially, as it would consume unnecessary memory.
+
+```csharp
+csharpCopy code
+using System;
+using System.Collections.Generic;
+
+namespace EagerLoadingExample
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Create a list with numbers
+            IList<int> numbers = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+            // Iterate through the numbers
+            foreach (var number in numbers)
+            {
+                Console.WriteLine(number);
+
+                // Assume some condition to exit the loop early
+                if (number >= 5)
+                    break;
+            }
+        }
+    }
+}
+
+```
+
+In this example, all numbers from 1 to 10 are loaded into the **`List<int>`** upfront, even though only the first few numbers are needed for iteration. This can waste memory, especially if the list contains a large number of elements.
+
+In summary, using **`IEnumerable`** allows for lazy loading, which can be advantageous when you only need to iterate through a collection partially without loading all elements into memory upfront, thus conserving resources.
+
+##### Is there any difference in loading strategy between the code
+`IEnumerable enumerable = new List(){1,2,3}
+IList list = new List(){1,2,3}` ??
+
+In the context of the specific code snippets you provided, there isn't a difference in loading strategy between using **`IEnumerable`** and **`IList`** because they both refer to the same **`List<int>`** instance in your code.
+
+```csharp
+csharpCopy code
+IEnumerable enumerable = new List<int>() { 1, 2, 3 };
+IList list = new List<int>() { 1, 2, 3 };
+
+```
+
+Both lines of code create a new instance of **`List<int>`** with elements **`1`**, **`2`**, and **`3`**. The loading strategy for this **`List<int>`** instance will be determined by the behavior of **`List<int>`**, which is an eager loading strategy. This means that when you create a **`List<int>`** and add elements to it, all elements are immediately loaded into memory.
+
+##### **What are the advantages of using a System.Collections.Concurrent namespace over the regular System.Collections.Generic namespace for collections, especially in multithreading scenarios?**
 
 **`System.Collections.Concurrent`** and **`System.Collections.Generic`** are two different namespaces in the .NET Framework that provide collections for managing data in a multi-threaded environment, but they have different purposes and characteristics:
 
@@ -68,8 +228,55 @@ Brief
     - These collections are not designed for concurrent access. If you need to work with them in a multi-threaded environment, you must take care of synchronization yourself, using locks, monitors, or other synchronization mechanisms to ensure thread safety.
     - They are suitable for single-threaded scenarios or situations where you have explicit control over synchronization.
 
-##### Can you create an IEnumerable that generates an infinite sequence of values on-the-fly without causing a memory leak? 
-How would you implement such a collection?
+##### Comparison between Lazy Loading and Eager Loading using Yield for IEnumerable Collection.
+
+```csharp
+using System;
+using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
+					
+public class Program
+{
+	public static void Main()
+	{
+		Console.WriteLine("Hello World");
+		IEnumerable<int> infinity = GenerateInfiniteNumberEager();
+		foreach(int i in infinity){
+			if(i > 100){
+				break;
+			}
+			Console.WriteLine("Num: "+i);
+		}	
+	}
+	
+	private static IEnumerable<int> GenerateInfiniteNumberLazy(){
+		int currentValue = 0;
+		while(true){
+			yield return currentValue;
+			currentValue++;
+		}
+	}
+	
+	private static IEnumerable<int> GenerateInfiniteNumberEager(){
+		List<int> lst = new List<int>();
+		int currentValue = 0;
+		while(true){
+			lst.Add(currentValue++);
+		}
+	}
+}
+```
+
+In the above code `GenerateInfiniteNumberLazy` implements lazy loading and `GenerateInfiniteNumberEager` implements eager loading for infinite numbers. First does not give any errors whereas the second gives memory exceeded error.
+
+##### Concept of Yield Keyword
+
+```csharp
+IEnumerable enumerable = {yield value1, yield value2, yield value3, ... }
+```
+
+##### **Can you create an IEnumerable that generates an infinite sequence of values on-the-fly without causing a memory leak? How would you implement such a collection?**
 
 Here’s an example of an infinite `IEnumerable<int>` that generates increasing integer values starting from a given value:
 
@@ -118,19 +325,19 @@ Here are the primary use cases for the **`yield`** keyword in the context of col
 
 #### Array, ArrayList, LinkedList.
 
-##### ****In C# Collections, how does the performance of a List compare to a LinkedList when it comes to insertion and deletion operations in the middle of the collection? Explain why.****
+##### **In C# Collections, how does the performance of a List compare to a LinkedList when it comes to insertion and deletion operations in the middle of the collection? Explain why.**
 
-![Untitled](/assets/img/linked_list_vs_arry.png)
+![Untitled](/assets/img/CollectionsInNET/Untitled.png)
 
 When it comes to insertion and deletion operations in the middle of the collection, `LinkedList<T>` usually has better performance than `List<T>`. The performance difference arises because of the way both these collections are organized internally:
 
 - `List<T>` is based on an underlying array. When inserting or deleting elements in the middle, the elements after the insertion/deletion point have to be moved to maintain a continuous array, resulting in an `O(n)` time complexity.
 - `LinkedList<T>`, on the other hand, is a doubly-linked list. Insertion and deletion only require reassigning pointers. Though searching an element in a linked list is O(n), once the targeted element is found, insertion and deletion are O(1).
 
-Therefore, if you need to frequently insert or delete elements in the middle of a collection, `LinkedList<T>` is more suitable from a performance perspective.
-
+> Therefore, if you need to frequently insert or delete elements in the middle of a collection, `LinkedList<T>` is more suitable from a performance perspective.
 However if the operation needed is iteration then ArrayList is better than LinkedList. It is because ArrayList supports random access through indexing. 
 Also there is no need for extra memory to store the reference key.
+> 
 
 ##### **Discuss the performance differences between Array, ArrayList, and List when it comes to adding, deleting, inserting, and looping through elements in C# Collections. with example**
 
@@ -170,8 +377,7 @@ Arrays, **`ArrayList`**, and **`List`** in C# have different performance charact
     Example:
     
     ```csharp
-    csharpCopy code
-    int[] array = new int[3] { 1, 2, 3 };
+    sint[] array = new int[3] { 1, 2, 3 };
     // Adding an element requires creating a new array.
     int[] newArray = new int[array.Length + 1];
     Array.Copy(array, newArray, array.Length);
@@ -187,7 +393,6 @@ Arrays, **`ArrayList`**, and **`List`** in C# have different performance charact
     Example:
     
     ```csharp
-    csharpCopy code
     ArrayList arrayList = new ArrayList();
     arrayList.Add(1);
     arrayList.Add("Two");  // Boxing of integer
@@ -219,7 +424,6 @@ Arrays, **`ArrayList`**, and **`List`** in C# have different performance charact
     Example:
     
     ```csharp
-    csharpCopy code
     foreach (int item in list) { /* process item */ }
     foreach (int item in array) { /* process item */ }
     foreach (object item in arrayList) { /* process item */ }
@@ -237,6 +441,54 @@ For performance-critical scenarios, it's recommended to use **`List<T>`** or oth
 
 #### HashSet and Dictionary.
 
+- **When to use List vs Hashset?**
+    
+    When comparing memory consumption between a **`List`** and a **`HashSet`**, it's essential to consider their characteristics and usage patterns:
+    
+    **List**:
+    
+    1. **Memory Usage**: A **`List`** typically consumes memory that is proportional to the number of elements it contains. Each element in the list is stored along with additional memory overhead for the list's internal data structures.
+    2. **Order Preservation**: A **`List`** maintains the order of elements, meaning that the order in which elements are added is preserved. This can be beneficial when order matters but might result in slightly higher memory usage due to maintaining this order.
+    3. **When to Use**:
+        - Use **`List`** when you need a simple, ordered collection to store and manage a list of items.
+        - It's suitable for scenarios where you don't require unique keys or fast lookup operations.
+    
+    **HashSet**:
+    
+    1. **Memory Usage**: A **`HashSet`** consumes memory based on the number of unique elements it contains. It automatically ensures that there are no duplicate elements, which can lead to lower memory usage compared to a **`List`** with duplicate elements.
+    2. **Order Preservation**: A **`HashSet`** does not maintain the order of elements. Elements are stored in an unordered manner to optimize for fast membership checks.
+    3. **When to Use**:
+        - Use **`HashSet`** when you need to ensure unique elements and perform fast membership checks.
+        - It's ideal for scenarios where you want to quickly determine whether an item is present in the collection.
+
+- **List.Contains vs Hashset.Contains**
+    
+    <aside>
+    💡 **`HashSet<T>.Contains()`**:
+    
+    - **`HashSet<T>`** is an unordered collection that does not allow duplicate elements.
+    - **`Contains()`** method in **`HashSet<T>`** uses hashing to quickly determine whether the specified element exists in the set.
+    - Time complexity: O(1) on average for a successful lookup. In the worst case, it can be O(n), but it's very rare and occurs when there are hash collisions.
+    - **`HashSet<T>`** is optimized for fast membership tests and is generally more efficient than **`List<T>`** for checking for the presence of an element.
+    </aside>
+    
+    <aside>
+    💡 **`List<T>.Contains()`**:
+    
+    - **`List<T>`** is an ordered collection that allows duplicate elements.
+    - **`Contains()`** method in **`List<T>`** performs a linear search through the list to find the specified element.
+    - Time complexity: O(n), where n is the number of elements in the list.
+    - If the list contains a large number of elements, the performance of **`Contains()`** can degrade for repeated searches.
+    </aside>
+    
+    Usage scenario:
+    
+    - If you need to frequently check for the presence of elements and the collection does not contain duplicates, **`HashSet<T>.Contains()`** is generally preferred due to its constant-time complexity.
+    - If the collection can contain duplicates or if you need to maintain the order of elements, **`List<T>.Contains()`** may be suitable, but keep in mind its linear-time complexity.
+    
+    In summary, if you're mainly interested in fast membership tests and ensuring unique elements, **`HashSet<T>.Contains()`** is the better choice. However, if you need to preserve the order of elements or if duplicates are allowed, **`List<T>.Contains()`** may be more appropriate.
+    
+
 ##### **Explain the concept of a “bucket” in the context of the Dictionary class in C# Collections and how it affects the performance during hash collisions.**
 
 In a **`Dictionary`** in C#, data is stored in key-value pairs, and each key is associated with a hash code. The primary goal of using a hash code is to efficiently locate the corresponding value in the dictionary without having to search through all elements one by one. However, hash codes are not always unique, meaning different keys can produce the same hash code. When this happens, it leads to a situation called a "hash collision."
@@ -248,7 +500,6 @@ A "bucket" in a **`Dictionary`** is a data structure designed to handle hash col
 Suppose you have a **`Dictionary`** in C# where you want to store key-value pairs, and you have the following keys and their associated hash codes:
 
 ```csharp
-csharpCopy code
 Key1 => HashCode: 123
 Key2 => HashCode: 456
 Key3 => HashCode: 123  // Hash collision with Key1
@@ -259,7 +510,6 @@ Key4 => HashCode: 789
 Now, let's assume you want to add these key-value pairs to the dictionary:
 
 ```csharp
-csharpCopy code
 Dictionary<string, int> myDictionary = new Dictionary<string, int>();
 myDictionary.Add("Key1", 100);
 myDictionary.Add("Key2", 200);
@@ -322,15 +572,15 @@ personAges["Alice"] = 26; // Updates the value for the key "Alice"
 // The dictionary contains { "Alice" => 26, "Bob" => 30 }
 ```
 
-##### ****How does the GetHashCode method affect the behavior of HashSet and Dictionary in C# Collections?****
+##### **How does the GetHashCode method affect the behavior of HashSet and Dictionary in C# Collections?**
 
 **Summary**
 
 - In C# collections like **`HashSet`** and **`Dictionary`**, the **`GetHashCode`** method is crucial for determining how elements are stored and retrieved efficiently within these collections.
 - **HashSet**: **`GetHashCode`** generates hash codes for elements, allowing them to be distributed into "buckets" in the set. This aids in quickly adding, retrieving, and checking for the existence of elements.
-- **Example**: Overriding **`GetHashCode`** in a custom class (e.g., **`Person`**) helps ensure uniqueness and efficient deduplication based on a specific property, like a person's name.
+    - **Example**: Overriding **`GetHashCode`** in a custom class (e.g., **`Person`**) helps ensure uniqueness and efficient deduplication based on a specific property, like a person's name.
 - **Dictionary**: **`GetHashCode`** calculates hash codes for keys, facilitating the location of key-value pairs in the dictionary's internal structure. This ensures fast key-based access.
-- **Example**: The well-implemented **`GetHashCode`** method for string keys in a **`Dictionary`** is essential for the quick retrieval of associated values.
+    - **Example**: The well-implemented **`GetHashCode`** method for string keys in a **`Dictionary`** is essential for the quick retrieval of associated values.
 
 The default `GetHashCode` implementation for reference types in C# is based on object identity, which means that two different instances of the same class are considered unequal even if their property values are identical. In other words, each distinct object gets a unique hash code by default, regardless of its content.
 
@@ -387,7 +637,7 @@ class Person
 }
 ```
 
-##### ****How can you implement a custom EqualityComparer to be used within a HashSet or Dictionary for value comparison?****
+##### **How can you implement a custom EqualityComparer to be used within a HashSet or Dictionary for value comparison?**
 
 To implement a custom `EqualityComparer<T>`, you need to create a class that inherits from the `EqualityComparer<T>` base class and overrides the `Equals` and `GetHashCode` methods. The custom methods should provide the appropriate comparison logic for your specific type.
 
@@ -480,7 +730,7 @@ When to choose one over the other depends on your specific requirements:
 - If you want to change both hash code generation and equality comparison for your custom type, implementing `GetHashCode` and `Equals` is a common and straightforward approach.
 - If you want to keep the default hash code behavior and comparer for the object but change them for specific use like while using in Hashset and Dictionary, you can create a custom `EqualityComparer` and pass it as a parameter when initializing a `HashSet` or `Dictionary`.
 
-##### ****What are some potential issues with using custom reference types as dictionary keys in C# Collections, and how would you mitigate them?****
+##### **What are some potential issues with using custom reference types as dictionary keys in C# Collections, and how would you mitigate them?**
 
 When using custom reference types as dictionary keys in C# collections, there are several potential issues that you should be aware of, along with ways to mitigate them:
 
@@ -497,26 +747,6 @@ When choosing to implement a tree-based collection like `SortedSet<T>` or `So
 - **Memory consumption**: Tree-based collections tend to have higher memory consumption than hash-based collections, as tree nodes require storing additional pointers for maintaining the tree structure.
 
 In summary, prefer tree-based collections like `SortedSet<T>` or `SortedDictionary<TKey, TValue>` when maintaining a sorted order is a priority or a requirement. For general-purpose usage or scenarios where fast lookups, insertions, and removals are more important, consider using hash-based collections like `HashSet<T>` or `Dictionary<TKey, TValue>`.
-
-##### **When to use List vs Hashset?**
-
-When comparing memory consumption between a **`List`** and a **`HashSet`**, it's essential to consider their characteristics and usage patterns:
-
-**List**:
-
-1. **Memory Usage**: A **`List`** typically consumes memory that is proportional to the number of elements it contains. Each element in the list is stored along with additional memory overhead for the list's internal data structures.
-2. **Order Preservation**: A **`List`** maintains the order of elements, meaning that the order in which elements are added is preserved. This can be beneficial when order matters but might result in slightly higher memory usage due to maintaining this order.
-3. **When to Use**:
-    - Use **`List`** when you need a simple, ordered collection to store and manage a list of items.
-    - It's suitable for scenarios where you don't require unique keys or fast lookup operations.
-
-**HashSet**:
-
-1. **Memory Usage**: A **`HashSet`** consumes memory based on the number of unique elements it contains. It automatically ensures that there are no duplicate elements, which can lead to lower memory usage compared to a **`List`** with duplicate elements.
-2. **Order Preservation**: A **`HashSet`** does not maintain the order of elements. Elements are stored in an unordered manner to optimize for fast membership checks.
-3. **When to Use**:
-    - Use **`HashSet`** when you need to ensure unique elements and perform fast membership checks.
-    - It's ideal for scenarios where you want to quickly determine whether an item is present in the collection.
 
 ##### **Discuss the differences between a Stack and a Queue in C# Collections, and provide a real-world example of when each type would be most suitable**
 

@@ -1,6 +1,10 @@
 .header-background{
     background: #040404;
   }
+
+  .lead{
+    font-size: 17px;
+  }
   
   /* DEMO-SPECIFIC STYLES */
   .typewriter h2 {

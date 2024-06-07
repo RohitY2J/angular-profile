@@ -1,3 +1,8 @@
-<p (click)="toggleExpansion()" class="clickable-paragraph expandable-div s-description text-center" [class.expanded]="expanded" [style.height]="expanded ? null : initialHeight">{{ text }} </p>
+<p (click)="toggleExpansion()" 
+  class="clickable-paragraph expandable-div s-description text-center" 
+  [class.expanded]="expanded" 
+  [style.height]="expanded ? null : initialHeight">
+  {{ text }} 
+</p>
 <!-- <button (click)="toggleExpansion()">{{ expanded ? 'Collapse' : 'Expand' }}</button> -->
   
