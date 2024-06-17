@@ -13,38 +13,40 @@ export class AngularIntroductionComponent {
   markdownContent: string = "";
   markdownPath = '../../assets/markdown/';
   markdownFileUrl = '../../assets/markdown/Angular Navigation and Routing.md';
-  pdfUrl = "../../assets/pdf/Collections_in_NET.pdf"
+  pdfUrl = "../../assets/pdf/Collections_in_NET.pdf";
+  angularTopics: { name: string, fileName: string }[] = [
+    { name: 'Angular Routing', fileName: 'Angular Navigation and Routing.md'},
+  ];
+  //angularTopics: string[] = ['Angular Routing'];
+  dotNetTopics: { name: string, fileName: string }[] = [
+    { name: 'Collections', fileName: 'Collections in NET.md'},
+  ];
+  isLoading: boolean = false;
 
   pdfPath: SafeResourceUrl = '';
 
   constructor(private http: HttpClient,private sanitizer: DomSanitizer, private markdownService: MarkdownService, private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.route.queryParams.subscribe(val => {
+      this.updateMarkDownFile();
+    })
+  }
+
+  updateMarkDownFile(){
+    this.isLoading = true;
+
     let fileName = this.route.snapshot.queryParamMap.get('file');
     this.markdownFileUrl = this.markdownPath + fileName;
     this.markdownService.getMarkdownContent(this.markdownFileUrl)
       .subscribe((content: string) => {
         this.markdownContent = this.markdownService.parseMarkdown(content);
+        this.isLoading = false;
       });
+  
+  }
 
-    // this.http.get('../../assets/html/Collections_in_NET.html', {responseType: 'text'}).subscribe(
-    //   (data) => {
-    //     this.markdownContent = data;
-    //   },
-    //   (error) => {
-    //     console.error('Error loading HTML content:', error);
-    //   }
-    // );
+  redirectTo(url: string){
 
-    // this.http.get(this.pdfUrl, { responseType: 'arraybuffer' }).subscribe(
-    //   (data: ArrayBuffer) => {
-    //     const blob = new Blob([data], { type: 'application/pdf' });
-    //     const url = URL.createObjectURL(blob);
-    //     this.pdfPath = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-    //   },
-    //   (error) => {
-    //     console.error('Error loading PDF:', error);
-    //   }
-    // );
   }
 }

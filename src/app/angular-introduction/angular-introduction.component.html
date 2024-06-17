@@ -5,6 +5,7 @@
         </div>
     </div>
     <div class="sidebar" style="padding-top: 30px;">
+        <!-- <app-loader *ngIf="isLoading"></app-loader> -->
         <div class="profile">
             <h3 style="margin-bottom: 20px;"><strong>Rohit's Blog</strong></h3>
             <img src="../../assets/img/rahul_passport_size.jpg" alt="profile_picture">
@@ -16,14 +17,21 @@
                 </i>
             </div>
             <hr style="color: white; height: 1px; margin-top:25px" />
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                Button with data-target
-            </button>
-            <div class="collapse" id="collapseExample">
-                <div class="card card-body">
-                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                </div>
-              </div>
+            <p class="sidebar-list-main-topic"data-bs-toggle="collapse" data-bs-target="#angular-sublist" aria-expanded="false" aria-controls="collapseExample">
+                Angular
+            </p>
+            <div class="collapse show sidebar-list-sub-topic" id="angular-sublist">
+                <span *ngFor="let topic of angularTopics" role="button" [routerLink]="['/angular-introduction']" [queryParams]="{file:topic.fileName}"> {{topic.name}}</span>
+                <!-- <a [routerLink]="['/angular-introduction']" [queryParams]="{file:'Angular Navigation and Routing.md'}">Angular Router and Navigation</a> -->
+            </div>
+
+            <p class="sidebar-list-main-topic"data-bs-toggle="collapse" data-bs-target="#dotnet-sublist" aria-expanded="false" aria-controls="collapseExample">
+                Dot Net
+            </p>
+            <div class="collapse show sidebar-list-sub-topic" id="dotnet-sublist">
+                <span *ngFor="let topic of dotNetTopics" role="button" [routerLink]="['/angular-introduction']" [queryParams]="{file:topic.fileName}"> {{topic.name}}</span>
+                <!-- <a [routerLink]="['/angular-introduction']" [queryParams]="{file:'Angular Navigation and Routing.md'}">Angular Router and Navigation</a> -->
+            </div>
         </div>
 
     </div>

@@ -9,13 +9,15 @@ import { AngularIntroductionComponent } from './angular-introduction/angular-int
 import { MarkdownService } from './markdown.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { LoaderComponent } from './loader/loader.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ExpandableDivComponent,
     ProfileComponent,
-    AngularIntroductionComponent
+    AngularIntroductionComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
