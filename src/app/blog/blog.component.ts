@@ -5,22 +5,29 @@ import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-angular-introduction',
-  templateUrl: './angular-introduction.component.html',
-  styleUrls: ['./angular-introduction.component.css']
+  selector: 'app-blog',
+  templateUrl: './blog.component.html',
+  styleUrls: ['./blog.component.css']
 })
 export class AngularIntroductionComponent {
   markdownContent: string = "";
   markdownPath = '../../assets/markdown/';
   markdownFileUrl = '../../assets/markdown/Angular Navigation and Routing.md';
   pdfUrl = "../../assets/pdf/Collections_in_NET.pdf";
-  angularTopics: { name: string, fileName: string }[] = [
-    { name: 'Angular Routing', fileName: 'Angular Navigation and Routing.md'},
+  angularTopics: { mainTopic: string, subTopics: {name: string, fileName: string }[]}[] = [
+    { mainTopic: 'Angular Routing', subTopics: 
+      [
+        {name: "Introduction", fileName: 'Angular Navigation and Routing.md'}
+      ]
+    },
   ];
-  //angularTopics: string[] = ['Angular Routing'];
-  dotNetTopics: { name: string, fileName: string }[] = [
-    { name: 'Collections', fileName: 'Collections in NET.md'},
-  ];
+  dotNetTopics: { mainTopic: string, subTopics: {name: string, fileName: string }[]}[] = [
+    { mainTopic: 'Collections', subTopics: 
+      [
+        {name: "Introduction", fileName: 'Collections in NET.md'}
+      ]
+    },
+  ]; 
   isLoading: boolean = false;
 
   pdfPath: SafeResourceUrl = '';

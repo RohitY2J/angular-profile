@@ -17,19 +17,30 @@
                 </i>
             </div>
             <hr style="color: white; height: 1px; margin-top:25px" />
-            <p class="sidebar-list-main-topic"data-bs-toggle="collapse" data-bs-target="#angular-sublist" aria-expanded="false" aria-controls="collapseExample">
+            <p class="sidebar-list-main-topic" data-bs-toggle="collapse" data-bs-target="#angular-sublist" aria-expanded="false" aria-controls="collapseExample">
                 Angular
             </p>
             <div class="collapse show sidebar-list-sub-topic" id="angular-sublist">
-                <span *ngFor="let topic of angularTopics" role="button" [routerLink]="['/angular-introduction']" [queryParams]="{file:topic.fileName}"> {{topic.name}}</span>
+                <span *ngFor="let topic of angularTopics"> 
+                    <div data-bs-toggle="collapse" data-bs-target="#angular-subtopiclist" aria-expanded="false" aria-controls="collapseExample"><b>{{topic.mainTopic}}</b></div>
+                    <div class="collapse show sidebar-list-sub-subtopic" id="angular-subtopiclist">
+                        <span *ngFor="let subTopic of topic.subTopics"  role="button" [routerLink]="['/angular-introduction']" [queryParams]="{file:subTopic.fileName}">{{subTopic.name}}</span>
+                    </div>
+                </span>
                 <!-- <a [routerLink]="['/angular-introduction']" [queryParams]="{file:'Angular Navigation and Routing.md'}">Angular Router and Navigation</a> -->
             </div>
 
             <p class="sidebar-list-main-topic"data-bs-toggle="collapse" data-bs-target="#dotnet-sublist" aria-expanded="false" aria-controls="collapseExample">
                 Dot Net
             </p>
+
             <div class="collapse show sidebar-list-sub-topic" id="dotnet-sublist">
-                <span *ngFor="let topic of dotNetTopics" role="button" [routerLink]="['/angular-introduction']" [queryParams]="{file:topic.fileName}"> {{topic.name}}</span>
+                <span *ngFor="let topic of dotNetTopics"> 
+                    <div data-bs-toggle="collapse" data-bs-target="#dotnet-subtopiclist" aria-expanded="false" aria-controls="collapseExample"><b>{{topic.mainTopic}}</b></div>
+                    <div class="collapse show sidebar-list-sub-subtopic" id="dotnet-subtopiclist">
+                        <span *ngFor="let subTopic of topic.subTopics"  role="button" [routerLink]="['/angular-introduction']" [queryParams]="{file:subTopic.fileName}">{{subTopic.name}}</span>
+                    </div>
+                </span>
                 <!-- <a [routerLink]="['/angular-introduction']" [queryParams]="{file:'Angular Navigation and Routing.md'}">Angular Router and Navigation</a> -->
             </div>
         </div>

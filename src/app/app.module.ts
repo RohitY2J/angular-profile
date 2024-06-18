@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ExpandableDivComponent } from './expandable-div/expandable-div.component';
 import { ProfileComponent } from './profile/profile.component';
-import { AngularIntroductionComponent } from './angular-introduction/angular-introduction.component';
+import { AngularIntroductionComponent } from './blog/blog.component';
 import { MarkdownService } from './markdown.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';

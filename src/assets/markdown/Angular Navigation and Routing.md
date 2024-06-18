@@ -1,10 +1,8 @@
-# Angular Navigation and Routing
+## Angular Navigation and Routing
 
-Last Modified: October 19, 2023 9:33 AM
+Last Modified: June 17, 2024 3:44 PM
 
-## Common Routing Task
-
-**Setting Up Routing in Angular:**
+##### **Setting Up Routing in Angular:**
 
 Angular uses a built-in router module for handling routing. Here are the steps and code snippets to set up routing for two components in an Angular application:
 
@@ -67,7 +65,7 @@ Angular uses a built-in router module for handling routing. Here are the steps a
 
 Now, when you click the links, the corresponding components will be displayed in the **`<router-outlet>`**.
 
-### Multiple Router Outlet
+##### **Multiple Router Outlet**
 
 In Angular, you can use multiple `<router-outlet>` elements to render different parts of a page. This is useful when you want to have nested views, sidebars, or multiple content areas that are independently controlled by different router outlets. Here's how you can use multiple router outlets in an Angular application:
 
@@ -114,22 +112,110 @@ When you navigate to a route with a named outlet, Angular will render the corres
 
 With these steps, you can use multiple router outlets to render different parts of a page in an Angular application. This is especially useful for creating complex layouts with distinct sections that can be independently controlled by the router.
 
-### Sending data through routing
+##### **Sending data through routing**
 
 There are several ways:
 
-```jsx
-//Accessing route in navigated page.
-import { ActivatedRoute, ParamMap } from '@angular/router'
-constructor(private route: ActivatedRoute) {}
-```
+1. **Query Parameters:**
+  Query parameters are typically used for sending non-sensitive data in the URL. They are appended to the URL after a `?` and separated by `&` if there are multiple parameters.
 
-![Untitled](/assets/img/angular_required_parameter.png)
+    **Example:**
 
-![Untitled](/assets/img/angular_optional_parameter.png)
+    Navigate with query parameters:
 
-![Untitled](/assets/img/angular_query_parameter.png)
+    ```tsx
+    import { Router } from '@angular/router';
 
-4) You can use a service to pass data from one component to another without using route parameters at all.
+    constructor(private router: Router) {}
 
-For an example see: [https://blogs.msmvps.com/deborahk/build-a-simple-angular-service-to-share-data/](https://blogs.msmvps.com/deborahk/build-a-simple-angular-service-to-share-data/)
+    navigateWithQueryParams() {
+      const queryParams = { id: '123', name: 'John Doe' };
+      this.router.navigate(['/destination-route'], { queryParams: queryParams });
+    }
+
+    ```
+
+    Retrieve query parameters in the destination component:
+
+    ```tsx
+    import { Component, OnInit } from '@angular/core';
+    import { ActivatedRoute } from '@angular/router';
+
+    @Component({
+      selector: 'app-destination',
+      templateUrl: './destination.component.html',
+      styleUrls: ['./destination.component.css']
+    })
+    export class DestinationComponent implements OnInit {
+
+      constructor(private route: ActivatedRoute) { }
+
+      ngOnInit(): void {
+        this.route.queryParams.subscribe(params => {
+          const id = params['id'];
+          const name = params['name'];
+          console.log('ID:', id);
+          console.log('Name:', name);
+        });
+      }
+
+    }
+
+    ```
+
+2. **Route Parameters**
+
+    Route parameters are used when the data is a part of the route itself. They are specified in the route path and can be accessed in the destination component using `ActivatedRoute`.
+
+    **Example:**
+
+    Navigate with route parameters:
+
+    ```tsx
+    import { Router } from '@angular/router';
+
+    constructor(private router: Router) {}
+
+    navigateWithRouteParams() {
+      const id = '123';
+      this.router.navigate(['/destination-route', id]);
+    }
+
+    ```
+
+    Retrieve route parameters in the destination component:
+
+    ```tsx
+    import { Component, OnInit } from '@angular/core';
+    import { ActivatedRoute, ParamMap } from '@angular/router';
+
+    @Component({
+      selector: 'app-destination',
+      templateUrl: './destination.component.html',
+      styleUrls: ['./destination.component.css']
+    })
+    export class DestinationComponent implements OnInit {
+      id: string;
+
+      constructor(private route: ActivatedRoute) { }
+
+      ngOnInit(): void {
+        this.route.paramMap.subscribe((params: ParamMap) => {
+          this.id = params.get('id');
+          console.log('ID:', this.id);
+        });
+      }
+
+    }
+
+    ```
+
+**Choosing Between Query Parameters and Route Parameters**
+
+- **Query Parameters**: Use when the data is optional, non-sensitive, or when you want to share a link that includes the data.
+- **Route Parameters**: Use when the data is required for the route to function correctly, such as an ID to fetch specific data.
+
+**Additional Considerations**
+
+- **Query Parameters Limitation**: Query parameters have a length limit imposed by some browsers (typically around 2,000 characters). If you need to send a large amount of data or sensitive data, consider using a different method such as state management (e.g., Angular services, Redux/NgRx, etc.) or local storage.
+- **Encoding**: Ensure that data sent via query parameters is properly encoded to prevent issues with special characters or reserved characters in URLs.
