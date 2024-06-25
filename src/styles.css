@@ -1482,3 +1482,7 @@ pre{
 	tab-size: 2;
 	padding: 1.5em 1em;
 }
+
+ul li{
+  list-style-type: none;
+}

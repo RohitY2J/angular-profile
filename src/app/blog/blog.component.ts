@@ -21,6 +21,13 @@ export class AngularIntroductionComponent {
       ]
     },
   ];
+  nodeTopics: { mainTopic: string, subTopics: {name: string, fileName: string }[]}[] = [
+    { mainTopic: 'Authentication', subTopics: 
+      [
+        {name: "Using Passport", fileName: 'Authentication with passport.md'}
+      ]
+    },
+  ];
   dotNetTopics: { mainTopic: string, subTopics: {name: string, fileName: string }[]}[] = [
     { mainTopic: 'Collections', subTopics: 
       [
