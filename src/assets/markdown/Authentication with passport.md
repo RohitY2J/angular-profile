@@ -158,10 +158,10 @@
     ));
     ```
 
-    - **`done(null, user)`:** Indicates successful authentication with the `user` object.
-    - **`done(null, false)`:** Indicates authentication failure without specific error.
-    - **`done(err)`:** Indicates an error during authentication.
-    - **`done(null, false, { message: 'Custom message' })`:** Provides a custom message on authentication failure.
+  - **`done(null, user)`:** Indicates successful authentication with the `user` object.
+  - **`done(null, false)`:** Indicates authentication failure without specific error.
+  - **`done(err)`:** Indicates an error during authentication.
+  - **`done(null, false, { message: 'Custom message' })`:** Provides a custom message on authentication failure.
 
   **e. Use the Strategy for Authentication**
 
