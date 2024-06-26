@@ -106,7 +106,7 @@ body{
 }
 
  .wrapper .section .container{
-  background: #fff;
+  background:#e7f1f9;
   padding: 50px;
   line-height: 28px;
 }
@@ -138,6 +138,5 @@ body.active .wrapper .section{
   text-align: left;
   font-size: 16px !important;
   margin-left: 20px;
-  margin-top: 5px;
 }
 

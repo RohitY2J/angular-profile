@@ -35,9 +35,14 @@
             </p>
             <div class="collapse show sidebar-list-sub-topic" id="node-sublist">
                 <span *ngFor="let topic of nodeTopics"> 
-                    <div data-bs-toggle="collapse" data-bs-target="#node-subtopiclist" aria-expanded="false" aria-controls="collapseExample"><b>{{topic.mainTopic}}</b></div>
-                    <div class="collapse show sidebar-list-sub-subtopic" id="node-subtopiclist">
-                        <span *ngFor="let subTopic of topic.subTopics"  role="button" [routerLink]="['/angular-introduction']" [queryParams]="{file:subTopic.fileName}">{{subTopic.name}}</span>
+                    <div *ngIf="topic.subTopics.length > 0">
+                        <div data-bs-toggle="collapse" data-bs-target="#node-subtopiclist" aria-expanded="false" aria-controls="collapseExample"><b>{{topic.mainTopic}}</b></div>
+                        <div class="collapse show sidebar-list-sub-subtopic" id="node-subtopiclist">
+                            <span *ngFor="let subTopic of topic.subTopics"  role="button" [routerLink]="['/angular-introduction']" [queryParams]="{file:subTopic.fileName}">{{subTopic.name}}</span>
+                        </div>
+                    </div>
+                    <div *ngIf="topic.subTopics.length == 0">
+                        <span role="button" [routerLink]="['/angular-introduction']" [queryParams]="{file:topic.fName}"><b>{{topic.mainTopic}}</b></span>
                     </div>
                 </span>
                 <!-- <a [routerLink]="['/angular-introduction']" [queryParams]="{file:'Angular Navigation and Routing.md'}">Angular Router and Navigation</a> -->
