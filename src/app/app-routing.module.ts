@@ -5,7 +5,7 @@ import { AngularIntroductionComponent } from './blog/blog.component';
 
 const routes: Routes = [
   { path: '', component: ProfileComponent },
-  { path: 'angular-introduction', component: AngularIntroductionComponent },
+  { path: 'blog', component: AngularIntroductionComponent },
   //{ path: 'component2', component: Component2Component },
 ];
 

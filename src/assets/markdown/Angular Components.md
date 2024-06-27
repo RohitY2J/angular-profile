@@ -1,23 +1,20 @@
-# Angular Components
+### Angular Components
 
-Last Modified: December 1, 2023 9:12 AM
+##### **Angular Architecture**
 
-## Angular Architecture
+<div class="w-500">
 
 ![Untitled](/assets/img/Angular%20Components/Untitled.png)
 
-Templates combines Html with angular derivatives.
-Components defines many views in hierarchical order.
-Router services provides navigation around application.
+</div>
 
-Angular apps are modular and has its own  modularity system called Angular modules or NgModules.
+Templates combines Html with angular derivatives.</br>
+Components defines many views in hierarchical order.</br>
+Router services provides navigation around application.</br>
+Angular apps are modular and has its own  modularity system called Angular modules or `NgModules`.
 
-## Need for Components
-
-- Components divide the UI into smaller parts.
-- When we need to get a divided and clear view of UI in angular, components are used.
-
-## Module vs Components
+##### **Module vs Components**
+Components divide the UI into smaller parts. When we need to get a divided and clear view of UI in angular, components are used.
 
 Module is a big container containing small containers like components, service and files.
 Components controls patch-up screen called views. i.e. small portion joined into big UI 
@@ -25,62 +22,63 @@ Components controls patch-up screen called views. i.e. small portion joined into
 Modules do not control any Html while components can control the HTML.
 Decorator used for module is `@ngmodule` whereas for component is `@component`
 
-## Components
+##### **Components**
 
 Components contain following elements:
 
-Html (template)
-Typescript class (code)
-Metadata (CSS selector)
+Html (template)</br>
+Typescript class (code)</br>
+Metadata (CSS selector)</br>
 
-Templates are form of Html that are used in creation of component.
+Templates are form of `Html` that are used in creation of component.
 
-## Benefits of components
+##### **Benefits of components**
 
 1. In-browser Navigation → components are rendered from router services and thus can be used for in-browser navigation.
 2. Browser independent.
 
-## Realtime Usage
 
-Video streaming application use angular components because of their extremely efficient streaming capacity. e.g. : `youtube`
-
-## Creation of Components
-
-![Untitled](/assets/img/Angular%20Components/Untitled%201.png)
-
-As we can see, the `app component` file contains html, CSS and typescript file as mentioned in the tree structure of component. 
-
-`app.component.spec.ts` is created for testing purpose.
-
-### starting ⇒ index.html
-
-![Untitled](/assets/img/Angular%20Components/Untitled%202.png)
-
-In the index.html, we can see the section where the `<app-root>` component is being rendered. The component is selected on the basis of selector present in the component `typesscript(.ts)` file. 
-
-![Untitled](/assets/img/Angular%20Components/Untitled%203.png)
-
-As we can see the typescript has selector value set to `app-root` thus in the index.html, the app-root component is replaced by `appcomponent`.
-Also we can see that component is defined using `@Component` decorator as mentioned before.
-
-### Creation of Component
+##### **Creation of Components**
 
 Command for creating component is 
 
 ```jsx
 ng g c component_name //eg: ng g c demo
-//g = generate
-//c = component
+g = generate
+c = component
 ```
 
-![Untitled](/assets/img/Angular%20Components/Untitled%204.png)
+<div>
 
-![Untitled](/assets/img/Angular%20Components/Untitled%205.png)
+![Untitled](/assets/img/Angular%20Components/Untitled%201.png)
 
-If we check the log while creating component we can see that while creating component some changes are also made in `app.module.ts`
-We can see that `DemoComponent` has been imported and added to ng module declaration.
+</div>
 
-### Selector
+As we can see, the `app component` file contains html, CSS and typescript file as mentioned in the tree structure of component. 
+`app.component.spec.ts` is created for testing purpose.
+
+
+
+<div class="h-350">
+
+![Untitled](/assets/img/Angular%20Components/Untitled%202.png)
+
+</div>
+
+In the index.html, we can see the section where the `<app-root>` component is being rendered. The component is selected on the basis of selector present in the component `typesscript(.ts)` file. 
+
+
+<div class="h-350">
+
+![Untitled](/assets/img/Angular%20Components/Untitled%203.png)
+
+</div>
+
+As we can see the typescript has selector value set to `app-root` thus in the index.html, the app-root component is replaced by `appcomponent`.
+Also we can see that component is defined using `@Component` decorator as mentioned before.
+
+
+**Selector**
 
 Now to render the demo-component, we need to add the selector tag for demo component in the html files where needed.
 
@@ -102,7 +100,7 @@ selector : '[app-demo]' //definition as attribute
 <div app-demo></div> //use
 ```
 
-### Template
+**Template**
 
 In the above example, file is provided for `templateurl`. But we can also use inline html for template purpose.
 The inline html can be used as:
@@ -111,7 +109,7 @@ The inline html can be used as:
 template : `<div>Sample html</div>`
 ```
 
-### StyleUrls
+**StyleUrls**
 
 Styleurls can also be provided with inline styles as:
 
@@ -119,7 +117,7 @@ Styleurls can also be provided with inline styles as:
 style: [`div{color: red;}`]
 ```
 
-### How to pass parameter into the child component?
+##### **How to pass parameter into the child component?**
 
 1. **Define an Input Property in the Child Component**:
     
@@ -167,11 +165,11 @@ style: [`div{color: red;}`]
 
 In this example, the `dataToChild` property in the parent component is bound to the `dataFromParent` input property in the child component. The data from the parent component is passed to the child component, and you can use it within the child component's template.
 
-### How to pass parameter from child to parent component?
+##### **How to pass parameter from child to parent component?**
 
 In Angular, you can pass data from a child component to a parent component using `@Output` and custom events. Here's a step-by-step guide on how to return a parameter from a child component to a parent component:
 
-1. Create the Child Component:
+1. **Create the Child Component**:
 Start by creating the child component that will send data back to the parent. You can generate a new component using the Angular CLI with the following command:
     
     ```
@@ -197,7 +195,7 @@ Start by creating the child component that will send data back to the parent. Yo
     }
     ```
     
-2. Use the Child Component in the Parent Component:
+2. **Use the Child Component in the Parent Component**:
 In the parent component's template, use the child component and bind to the event emitted by the child. Make sure to include an event handler in the parent component to receive the data. For example:
     
     ```html
@@ -206,7 +204,7 @@ In the parent component's template, use the child component and bind to the even
     
     ```
     
-3. Handle the Event in the Parent Component:
+3. **Handle the Event in the Parent Component**:
 In the parent component TypeScript file, implement the event handler `handleDataFromChild(data)` to receive the data sent by the child component. Update the property in the parent component to store the received data:
     
     ```tsx
@@ -226,7 +224,7 @@ In the parent component TypeScript file, implement the event handler `handleData
     }
     ```
     
-4. Emit Data from the Child Component:
+4. **Emit Data from the Child Component**:
 To send data from the child component to the parent, call the `sendDataToParent` method in the child component's logic:
     
     ```tsx

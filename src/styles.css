@@ -1486,3 +1486,13 @@ pre{
 ul li{
   list-style-type: none;
 }
+
+.w-500 img{
+  width: 500px;
+  float: right;
+}
+
+.h-350 img{
+  height: 350px
+}
+

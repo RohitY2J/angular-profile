@@ -14,7 +14,10 @@ export class AngularIntroductionComponent {
   markdownPath = '../../assets/markdown/';
   markdownFileUrl = '../../assets/markdown/Angular Navigation and Routing.md';
   pdfUrl = "../../assets/pdf/Collections_in_NET.pdf";
-  angularTopics: { mainTopic: string, subTopics: {name: string, fileName: string }[]}[] = [
+  angularTopics: { mainTopic: string, subTopics: {name: string, fileName: string }[], fName?: string}[] = [
+    {
+      mainTopic: 'Angular Components', subTopics:[], fName:'Angular Components.md'
+    },
     { mainTopic: 'Angular Routing', subTopics: 
       [
         {name: "Introduction", fileName: 'Angular Navigation and Routing.md'}
