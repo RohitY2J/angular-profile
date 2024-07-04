@@ -23,9 +23,9 @@
             <div class="collapse show sidebar-list-sub-topic" id="angular-sublist">
                 <span *ngFor="let topic of angularTopics"> 
                     <div *ngIf="topic.subTopics.length > 0">    
-                        <div data-bs-toggle="collapse" data-bs-target="#angular-subtopiclist" aria-expanded="false" aria-controls="collapseExample">{{topic.mainTopic}}</div>
+                        <div data-bs-toggle="collapse" role="button" data-bs-target="#angular-subtopiclist" aria-expanded="false" aria-controls="collapseExample">{{topic.mainTopic}}</div>
                         <div class="collapse sidebar-list-sub-subtopic" id="angular-subtopiclist">
-                            <span *ngFor="let subTopic of topic.subTopics"  role="button" [routerLink]="['/blog']" [queryParams]="{file:subTopic.fileName}">{{subTopic.name}}</span>
+                            <span *ngFor="let subTopic of topic.subTopics" class="d-block"  role="button" [routerLink]="['/blog']" [queryParams]="{file:subTopic.fileName}">{{subTopic.name}}</span>
                         </div>
                     </div>
                     <div *ngIf="topic.subTopics.length == 0">
@@ -40,9 +40,9 @@
             <div class="collapse show sidebar-list-sub-topic" id="node-sublist">
                 <span *ngFor="let topic of nodeTopics"> 
                     <div *ngIf="topic.subTopics.length > 0">
-                        <div data-bs-toggle="collapse" data-bs-target="#node-subtopiclist" aria-expanded="false" aria-controls="collapseExample">{{topic.mainTopic}}</div>
+                        <div data-bs-toggle="collapse" role="button" data-bs-target="#node-subtopiclist" aria-expanded="false" aria-controls="collapseExample">{{topic.mainTopic}}</div>
                         <div class="collapse sidebar-list-sub-subtopic" id="node-subtopiclist">
-                            <span *ngFor="let subTopic of topic.subTopics"  role="button" [routerLink]="['/blog']" [queryParams]="{file:subTopic.fileName}">{{subTopic.name}}</span>
+                            <span *ngFor="let subTopic of topic.subTopics" class="d-block"  role="button" [routerLink]="['/blog']" [queryParams]="{file:subTopic.fileName}">{{subTopic.name}}</span>
                         </div>
                     </div>
                     <div *ngIf="topic.subTopics.length == 0">
@@ -57,9 +57,9 @@
 
             <div class="collapse show sidebar-list-sub-topic" id="dotnet-sublist">
                 <span *ngFor="let topic of dotNetTopics"> 
-                    <div data-bs-toggle="collapse" data-bs-target="#dotnet-subtopiclist" aria-expanded="false" aria-controls="collapseExample">{{topic.mainTopic}}</div>
+                    <div data-bs-toggle="collapse" data-bs-target="#dotnet-subtopiclist" role="button" aria-expanded="false" aria-controls="collapseExample">{{topic.mainTopic}}</div>
                     <div class="collapse sidebar-list-sub-subtopic" id="dotnet-subtopiclist">
-                        <span *ngFor="let subTopic of topic.subTopics"  role="button" [routerLink]="['/blog']" [queryParams]="{file:subTopic.fileName}">{{subTopic.name}}</span>
+                        <span *ngFor="let subTopic of topic.subTopics" class="d-block"  role="button" [routerLink]="['/blog']" [queryParams]="{file:subTopic.fileName}">{{subTopic.name}}</span>
                     </div>
                 </span>
             </div>

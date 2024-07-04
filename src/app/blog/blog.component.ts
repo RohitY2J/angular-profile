@@ -20,7 +20,9 @@ export class AngularIntroductionComponent {
     },
     { mainTopic: 'Angular Routing', subTopics: 
       [
-        {name: "Introduction", fileName: 'Angular Navigation and Routing.md'}
+        {name: "Introduction", fileName: 'Angular Navigation and Routing.md'},
+        {name: "Auxiliary Routing", fileName: 'Auxiliary Routing.md'},
+        {name: "URL Serializer", fileName: 'Url Serializer.md'}
       ]
     },
   ];
