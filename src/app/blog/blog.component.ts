@@ -34,7 +34,10 @@ export class AngularIntroductionComponent {
       ]
     },
   ];
-  dotNetTopics: { mainTopic: string, subTopics: {name: string, fileName: string }[]}[] = [
+  dotNetTopics: { mainTopic: string, subTopics: {name: string, fileName: string }[], fName?:string}[] = [
+    {mainTopic: "Algorithms", subTopics:[
+      {name: "Binary Tree", fileName: 'Binary Tree.md'}
+    ]},
     { mainTopic: 'Collections', subTopics: 
       [
         {name: "Introduction", fileName: 'Collections in NET.md'}

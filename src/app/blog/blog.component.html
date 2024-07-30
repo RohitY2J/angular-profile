@@ -52,16 +52,28 @@
             </div>
 
             <p class="sidebar-list-main-topic"data-bs-toggle="collapse" data-bs-target="#dotnet-sublist" aria-expanded="false" aria-controls="collapseExample">
-                Dot Net
+                C# Dot Net
             </p>
 
             <div class="collapse show sidebar-list-sub-topic" id="dotnet-sublist">
-                <span *ngFor="let topic of dotNetTopics"> 
-                    <div data-bs-toggle="collapse" data-bs-target="#dotnet-subtopiclist" role="button" aria-expanded="false" aria-controls="collapseExample">{{topic.mainTopic}}</div>
+                <span *ngFor="let topic of dotNetTopics; let i = index"> 
+                    <div *ngIf="topic.subTopics.length > 0">
+                        <div data-bs-toggle="collapse" role="button" [attr.data-bs-target]="'#dotnet-subtopiclist-' + i" aria-expanded="false" [attr.aria-controls]="'dotnet-subtopiclist-' + i">{{topic.mainTopic}}</div>
+                        <div class="collapse sidebar-list-sub-subtopic" [attr.id]="'dotnet-subtopiclist-' + i">
+                            <span *ngFor="let subTopic of topic.subTopics" class="d-block" role="button" [routerLink]="['/blog']" [queryParams]="{file:subTopic.fileName}">{{subTopic.name}}</span>
+                        </div>
+                    </div>
+                    <div *ngIf="topic.subTopics.length == 0">
+                        <span role="button" [routerLink]="['/blog']" [queryParams]="{file:topic.fName}">{{topic.mainTopic}}</span>
+                    </div>
+                </span>
+                
+                <!-- <span *ngFor="let topic of dotNetTopics"> 
+                    <div class="fw-bold" data-bs-toggle="collapse" data-bs-target="#dotnet-subtopiclist" role="button" aria-expanded="false" aria-controls="collapseExample">{{topic.mainTopic}}</div>
                     <div class="collapse sidebar-list-sub-subtopic" id="dotnet-subtopiclist">
                         <span *ngFor="let subTopic of topic.subTopics" class="d-block"  role="button" [routerLink]="['/blog']" [queryParams]="{file:subTopic.fileName}">{{subTopic.name}}</span>
                     </div>
-                </span>
+                </span> -->
             </div>
         </div>
 
